@@ -1,0 +1,103 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id          String   @id @default(uuid())
+  email       String?  @unique
+  displayName String   @map("display_name")
+  avatarUrl   String?  @map("avatar_url")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  oauthAccounts    OAuthAccount[]
+  sessions         Session[]
+  ownedWorkspaces  Workspace[]       @relation("WorkspaceOwner")
+  workspaceMembers WorkspaceMember[]
+
+  @@map("users")
+}
+
+model OAuthAccount {
+  id                   String    @id @default(uuid())
+  userId               String    @map("user_id")
+  provider             String
+  providerUserId       String    @map("provider_user_id")
+  accessTokenEncrypted String    @map("access_token_encrypted")
+  refreshTokenEncrypted String?  @map("refresh_token_encrypted")
+  expiresAt            DateTime? @map("expires_at")
+  createdAt            DateTime  @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerUserId])
+  @@map("oauth_accounts")
+}
+
+model Session {
+  id        String    @id @default(uuid())
+  userId    String    @map("user_id")
+  tokenHash String    @unique @map("token_hash")
+  ipAddress String?   @map("ip_address")
+  userAgent String?   @map("user_agent")
+  expiresAt DateTime  @map("expires_at")
+  revokedAt DateTime? @map("revoked_at")
+  createdAt DateTime  @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([tokenHash])
+  @@map("sessions")
+}
+
+model Workspace {
+  id        String   @id @default(uuid())
+  name      String
+  slug      String   @unique
+  ownerId   String   @map("owner_id")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  owner    User              @relation("WorkspaceOwner", fields: [ownerId], references: [id], onDelete: Restrict)
+  members  WorkspaceMember[]
+  projects Project[]
+
+  @@map("workspaces")
+}
+
+enum WorkspaceRole {
+  ADMIN
+  MEMBER
+  VIEWER
+}
+
+model WorkspaceMember {
+  id          String        @id @default(uuid())
+  workspaceId String        @map("workspace_id")
+  userId      String        @map("user_id")
+  role        WorkspaceRole @default(MEMBER)
+  createdAt   DateTime      @default(now()) @map("created_at")
+
+  workspace Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([workspaceId, userId])
+  @@map("workspace_members")
+}
+
+model Project {
+  id          String   @id @default(uuid())
+  workspaceId String   @map("workspace_id")
+  name        String
+  description String?
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  workspace Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+
+  @@index([workspaceId])
+  @@map("projects")
+}

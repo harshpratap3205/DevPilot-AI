@@ -1,0 +1,12 @@
+# Phase Documentation Index (00 - 09)
+
+- [Phase 00: Foundation & Infrastructure](file:///c:/Users/harsh/Downloads/DevPilot%20AI/docs/phases/phase-00-foundation.md)
+- [Phase 01: Authentication & GitHub Integration](file:///c:/Users/harsh/Downloads/DevPilot%20AI/docs/phases/phase-01-auth-github.md)
+- [Phase 02: Repository Intelligence](file:///c:/Users/harsh/Downloads/DevPilot%20AI/docs/phases/phase-02-repo-intelligence.md)
+- [Phase 03: RAG Code Assistant](file:///c:/Users/harsh/Downloads/DevPilot%20AI/docs/phases/phase-03-rag-assistant.md)
+- [Phase 04: Infrastructure Generator](file:///c:/Users/harsh/Downloads/DevPilot%20AI/docs/phases/phase-04-infra-generator.md)
+- [Phase 05: CI/CD Automation](file:///c:/Users/harsh/Downloads/DevPilot%20AI/docs/phases/phase-05-ci-cd-automation.md)
+- [Phase 06: Deployment Orchestration](file:///c:/Users/harsh/Downloads/DevPilot%20AI/docs/phases/phase-06-deployment-orchestration.md)
+- [Phase 07: Monitoring & Observability](file:///c:/Users/harsh/Downloads/DevPilot%20AI/docs/phases/phase-07-observability.md)
+- [Phase 08: Security & Reliability Hardening](file:///c:/Users/harsh/Downloads/DevPilot%20AI/docs/phases/phase-08-hardening.md)
+- [Phase 09: Production Readiness & Portfolio Demo](file:///c:/Users/harsh/Downloads/DevPilot%20AI/docs/phases/phase-09-release.md)
